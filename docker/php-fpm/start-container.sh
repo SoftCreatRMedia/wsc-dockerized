@@ -6,7 +6,7 @@ if [ ! "$(ls -A $1)" ]; then
     TMP_DIR="$(mktemp -d)"
     
     cd "$TMP_DIR"
-    curl -sL -o "WCF-$WSC_VERSION.tgz" "https://github.com/WoltLab/WCF/archive/refs/heads/$WSC_VERSION.tar.gz"
+    curl -sL -o "WCF-$WSC_VERSION.tgz" "https://codeload.github.com/WoltLab/WCF/tar.gz/WSC_VERSIONs/heads/$WSC_VERSION"
     tar xfz "WCF-$WSC_VERSION.tgz"
 
     TMP_DIR="$TMP_DIR/WCF-$WSC_VERSION"

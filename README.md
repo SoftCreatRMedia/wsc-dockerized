@@ -24,32 +24,23 @@ Every version is shipped with the same basic components:
   + imagick (using ImageMagick 7)
   + pdo_mysql
   + redis
+  + opcache
 - MySQL 8
-  + 2 GB InnoDB Buffer Pool Size
-  + 2 InnoDB Buffer Pool Instances
-- Redis 7
+  + 1 GB InnoDB Buffer Pool Size
+  + 1 InnoDB Buffer Pool Instance
+- Dragonfly (redis)
 
-Depending on the WSC version, the PHP installation differs accordingly:
+Depending on the WSC version, the PHP version needs to be set in the `.env` file:
 
-##### WoltLab Suite Core 3.0
-- PHP 7.4
-
-##### WoltLab Suite Core 3.1
-- PHP 7.4
-
-##### WoltLab Suite Core 5.2
-- PHP 7.4
-
-##### WoltLab Suite Core 5.3
-- PHP 7.4
-
-##### WoltLab Suite Core 5.4
-- PHP 8.0
-  + gmp (required for U2F / WebAuthn)
-
-##### WoltLab Suite Core 5.5
-- PHP 8.1
-  + gmp (required for U2F / WebAuthn)
+| Version           | Min. PHP-Version | Max. PHP-Version |
+|-------------------|------------------|------------------|
+| WoltLab Suite 6.0 | PHP 8.1.2        | PHP 8.2.x        |
+| WoltLab Suite 5.5 | PHP 7.4.21       | PHP 8.1.x        |
+| WoltLab Suite 5.4 | PHP 7.2.24       | PHP 8.0.x        |
+| WoltLab Suite 5.3 | PHP 7.0.22       | PHP 7.4.x        |
+| WoltLab Suite 5.2 | PHP 7.0.22       | PHP 7.4.x        |
+| WoltLab Suite 3.1 | PHP 5.5.4        | PHP 7.4.x        |
+| WoltLab Suite 3.0 | PHP 5.5.4        | PHP 7.4.x        |
 
 ## Installation
 
@@ -64,15 +55,9 @@ git clone https://github.com/SoftCreatR/wsc-dockerized
 cd wsc-dockerized
 ```
 
-For every release of WoltLab Suite Core, a corresponding branch exists. Depending on the desired version, check out it's branch, e.g.:
-
-```bash
-git checkout 5.4
-```
-
 ##### Container setup
 
-After checking out the desired WoltLab Suite Core version, it's time to set-up the container, but before proceeding, make sure to set-up the database credentials first. To do so, __copy__ the file `.env.example` to `.env`, and edit the file. The options are self-explanatory. This step is optional, but it is recommended to perform it.
+After checking out the desired WoltLab Suite Core version, it's time to set-up the container, but before proceeding, make sure to set-up the database credentials first. To do so, __copy__ the file `.env.example` to `.env`, and edit the file. The options are self-explanatory. This step is optional, but it is recommended to perform it, especially if you want to use a specific WSC, or PHP version.
 
 To start the container setup, execute this command:
 

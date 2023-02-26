@@ -1,4 +1,6 @@
-FROM php:8.1-fpm-alpine
+ARG PHP_VERSION=8.1
+
+FROM php:${PHP_VERSION}-fpm-alpine
 LABEL maintainer="Sascha Greuel <sascha@softcreatr.de>"
 
 RUN set -eux; \
@@ -29,4 +31,4 @@ RUN set -eux; \
 COPY ./start-container.sh /usr/local/bin/start-container
 RUN chmod +x /usr/local/bin/start-container
 
-ENTRYPOINT ["start-container", "/wsc", "5.5"]
+ENTRYPOINT start-container /wsc $WSC_VERSION
