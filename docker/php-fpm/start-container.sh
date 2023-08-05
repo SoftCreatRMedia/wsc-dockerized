@@ -1,18 +1,30 @@
 #!/bin/bash
 
-if [ ! "$(ls -A $1)" ]; then
+if [ ! "$(ls -A "$1")" ]; then
     INSTALL_DIR="$1"
-    WSC_VERSION="$2"
     TMP_DIR="$(mktemp -d)"
-    
+
+    REF="$2"
+    if [[ "$REF" == "6.0" ]]; then
+        REF="master"
+    fi
+
     cd "$TMP_DIR"
-    curl -sL -o "WCF-$WSC_VERSION.tgz" "https://codeload.github.com/WoltLab/WCF/tar.gz/refs/heads/master"
-    tar xfz "WCF-$WSC_VERSION.tgz"
 
-    TMP_DIR="$TMP_DIR/WCF-$WSC_VERSION"
+    if [[ "$REF" =~ ^[0-9]+\.[0-9]+$ ]] || [[ "$REF" == "master" ]] || [[ "$REF" == "main" ]]; then
+        curl -sL -o "WCF-$REF.tgz" "https://codeload.github.com/WoltLab/WCF/tar.gz/refs/heads/$REF"
+    elif [[ "$REF" =~ ^[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
+        curl -sL -o "WCF-$REF.tgz" "https://codeload.github.com/WoltLab/WCF/tar.gz/refs/tags/$REF"
+    else
+        echo "Don't know what to do with version '$REF'" >> "$INSTALL_DIR/setup.log"
+        exit
+    fi
 
-    mv "$TMP_DIR/wcfsetup/install.php" "$1"
-    mv "$TMP_DIR/wcfsetup/test.php" "$1"
+    tar xfz "WCF-$REF.tgz"
+    rm -f "WCF-$REF.tgz"
+    TMP_DIR="$TMP_DIR/WCF-$REF"
+
+    mv -t "$INSTALL_DIR" "$TMP_DIR/wcfsetup/install.php" "$TMP_DIR/wcfsetup/test.php"
 
     pushd "$TMP_DIR/com.woltlab.wcf/templates"
     tar cf "$TMP_DIR/com.woltlab.wcf/templates.tar" *
@@ -24,13 +36,13 @@ if [ ! "$(ls -A $1)" ]; then
     popd
 
     pushd "$TMP_DIR/wcfsetup"
-    tar czf "$1/WCFSetup.tar.gz" *
+    tar czf "$INSTALL_DIR/WCFSetup.tar.gz" *
     popd
 
     rm -rf "$TMP_DIR"
 
-    chown -R "$(stat -c "%u:%g" .)" "$1"
-    chmod -R 0777 "$1"
+    chown -R "$(stat -c "%u:%g" .)" "$INSTALL_DIR"
+    chmod -R 0777 "$INSTALL_DIR"
 fi
 
 
