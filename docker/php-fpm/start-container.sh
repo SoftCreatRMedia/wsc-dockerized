@@ -13,7 +13,7 @@ if [ ! "$(ls -A "$1")" ]; then
 
     if [[ "$REF" =~ ^[0-9]+\.[0-9]+$ ]] || [[ "$REF" == "master" ]] || [[ "$REF" == "main" ]]; then
         curl -sL -o "WCF-$REF.tgz" "https://codeload.github.com/WoltLab/WCF/tar.gz/refs/heads/$REF"
-    elif [[ "$REF" =~ ^[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
+    elif [[ "$REF" =~ ^[0-9]+\.[0-9]+\.[0-9]+(_(Alpha|Beta|RC|dev)_[0-9]+)?$ ]]; then
         curl -sL -o "WCF-$REF.tgz" "https://codeload.github.com/WoltLab/WCF/tar.gz/refs/tags/$REF"
     else
         echo "Don't know what to do with version '$REF'" >> "$INSTALL_DIR/setup.log"
