@@ -25,9 +25,8 @@ Every version is shipped with the same basic components:
   + pdo_mysql
   + redis
   + opcache
-- MySQL 8
+- MariaDB LTS
   + 1 GB InnoDB Buffer Pool Size
-  + 1 InnoDB Buffer Pool Instance
 - Dragonfly (redis)
 
 Depending on the WSC version, the PHP version needs to be set in the `.env` file:
