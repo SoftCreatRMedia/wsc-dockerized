@@ -31,4 +31,4 @@ RUN set -eux; \
 COPY ./start-container.sh /usr/local/bin/start-container
 RUN chmod +x /usr/local/bin/start-container
 
-ENTRYPOINT start-container /wsc $WSC_VERSION
+ENTRYPOINT bash start-container /wsc $WSC_VERSION

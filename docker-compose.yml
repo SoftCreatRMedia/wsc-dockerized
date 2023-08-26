@@ -20,6 +20,9 @@ services:
         PHP_VERSION: "${PHP_VERSION:-8.1}"
     environment:
       WSC_VERSION: "${WSC_VERSION:-master}"
+      MYSQL_DATABASE: "${MYSQL_DATABASE:-woltlab_suite}"
+      MYSQL_USER: "${MYSQL_USER:-woltlab_suite}"
+      MYSQL_PASSWORD: "${MYSQL_PASSWORD:-woltlab_suite}"
     restart: always
     links:
       - mysql
@@ -27,6 +30,7 @@ services:
       - "./public:/wsc"
       - "./devtools:/devtools"
       - "./docker/php-fpm/php-overrides.ini:/usr/local/etc/php/conf.d/php-overrides.ini"
+      - "./docker/php-fpm/WCFSetupTemplate.conf:/usr/local/etc/php-fpm.d/WCFSetupTemplate.conf"
 
   mysql:
     image: "mysql:8"
