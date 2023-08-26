@@ -1,25 +1,35 @@
 #!/bin/bash
 
 if [ ! "$(ls -A "$1")" ]; then
+    # Define the installation directory and reference/version
     INSTALL_DIR="$1"
     TMP_DIR="$(mktemp -d)"
-
     REF="$2"
-    if [[ "$REF" == "6.0" ]]; then
-        REF="master"
-    fi
+    
+    # If the reference is 6.0, set it to master
+    [ "$REF" == "6.0" ] && REF="master"
 
     cd "$TMP_DIR"
 
-    if [[ "$REF" =~ ^[0-9]+\.[0-9]+$ ]] || [[ "$REF" == "master" ]] || [[ "$REF" == "main" ]]; then
-        curl -sL -o "WCF-$REF.tgz" "https://codeload.github.com/WoltLab/WCF/tar.gz/refs/heads/$REF"
+    # Determine the download URL based on the REF value
+    if [[ "$REF" == "master" ]] || [[ "$REF" == "main" ]]; then
+        DOWNLOAD_URL="https://codeload.github.com/WoltLab/WCF/tar.gz/refs/heads/$REF"
     elif [[ "$REF" =~ ^[0-9]+\.[0-9]+\.[0-9]+(_(Alpha|Beta|RC|dev)_[0-9]+)?$ ]]; then
-        curl -sL -o "WCF-$REF.tgz" "https://codeload.github.com/WoltLab/WCF/tar.gz/refs/tags/$REF"
+        DOWNLOAD_URL="https://codeload.github.com/WoltLab/WCF/tar.gz/refs/tags/$REF"
+    elif [[ "$REF" =~ ^[0-9]+\.[0-9]+$ ]]; then
+        DOWNLOAD_URL="https://codeload.github.com/WoltLab/WCF/tar.gz/refs/heads/$REF"
     else
-        echo "Don't know what to do with version '$REF'" >> "$INSTALL_DIR/setup.log"
-        exit
+        echo "Unknown version '$REF'" >> "$INSTALL_DIR/setup.log"
+        exit 1
     fi
 
+	echo "Downloading WSC '$REF' from $DOWNLOAD_URL, please wait..."
+
+    # Download and extract WSC
+    curl -sL -o "WCF-$REF.tgz" "$DOWNLOAD_URL" || { echo "Download failed"; exit 1; }
+    tar xfz "WCF-$REF.tgz" || { echo "Extraction failed"; exit 1; }
+
+    # Create tarballs required for the installation process
     tar xfz "WCF-$REF.tgz"
     rm -f "WCF-$REF.tgz"
     TMP_DIR="$TMP_DIR/WCF-$REF"
@@ -39,13 +49,16 @@ if [ ! "$(ls -A "$1")" ]; then
     tar czf "$INSTALL_DIR/WCFSetup.tar.gz" *
     popd
 
+    # Cleanup
     rm -rf "$TMP_DIR"
 
+    # Set permissions
     chown -R "$(stat -c "%u:%g" .)" "$INSTALL_DIR"
     chmod -R 0777 "$INSTALL_DIR"
 fi
 
-
+# Start PHP-FPM
 php-fpm
 
+# Execute any additional commands passed to the script
 exec "$@"

@@ -1,39 +1,39 @@
-version: "3"
+version: "3.8"
 
 services:
   nginx:
     image: "nginx:alpine"
     restart: always
-    links:
-      - php-fpm
     volumes:
       - "./public:/wsc"
       - "./docker/nginx/realip.conf:/etc/nginx/conf.d/realip.conf"
       - "./docker/nginx/site.conf:/etc/nginx/conf.d/default.conf"
     ports:
-      - "80:80"
+      - "${FPM_PORT:-80}:80"
+    networks:
+      - wsc-network
 
   php-fpm:
     build:
       context: docker/php-fpm
       args:
-        PHP_VERSION: "${PHP_VERSION:-8.1}"
+        PHP_VERSION: "${PHP_VERSION:-8.2}"
     environment:
-      WSC_VERSION: "${WSC_VERSION:-master}"
+      WSC_VERSION: "${WSC_VERSION:-6.0}"
       MYSQL_DATABASE: "${MYSQL_DATABASE:-woltlab_suite}"
       MYSQL_USER: "${MYSQL_USER:-woltlab_suite}"
       MYSQL_PASSWORD: "${MYSQL_PASSWORD:-woltlab_suite}"
     restart: always
-    links:
-      - mysql
     volumes:
       - "./public:/wsc"
       - "./devtools:/devtools"
       - "./docker/php-fpm/php-overrides.ini:/usr/local/etc/php/conf.d/php-overrides.ini"
       - "./docker/php-fpm/WCFSetupTemplate.conf:/usr/local/etc/php-fpm.d/WCFSetupTemplate.conf"
+    networks:
+      - wsc-network
 
   mysql:
-    image: "mysql:8"
+    image: "mariadb:lts"
     restart: always
     volumes:
       - "./mysql/data:/var/lib/mysql"
@@ -47,22 +47,27 @@ services:
       MYSQL_DATABASE: "${MYSQL_DATABASE:-woltlab_suite}"
       MYSQL_USER: "${MYSQL_USER:-woltlab_suite}"
       MYSQL_PASSWORD: "${MYSQL_PASSWORD:-woltlab_suite}"
-    ports:
-      - "3306"
     command:
       - mysqld
       - "--innodb_buffer_pool_size=1G"
-      - "--innodb_buffer_pool_instances=1"
+    ports:
+      - "${MYSQL_PORT:-3306}:3306"
+    networks:
+      - wsc-network
 
   redis:
-    image: docker.dragonflydb.io/dragonflydb/dragonfly
+    image: docker.dragonflydb.io/dragonflydb/dragonfly:ubuntu
     restart: always
     ulimits:
       memlock: -1
-    ports:
-      - "6379"
     volumes:
       - "dragonflydata:/data"
+    networks:
+      - wsc-network
+
+networks:
+  wsc-network:
+    driver: bridge
 
 volumes:
-  dragonflydata: null
+  dragonflydata:

@@ -79,7 +79,7 @@ Click on the "Start installation" button to proceed.
 
 Since this project is primarily aimed at developers, you probably want to set up the software in developer mode. In this case, call the `install.php` file with the parameter `dev=1`, for example `http://localhost/install.php?dev=1`.
 
-During the installation, you'll be asked for database information. It's important to know, that the database server is not reachable via `localhost`, or `127.0.0.1`, but `mysql`. It's also worth noting, that MySQL will be installed with a pre-created database, and pre-defined login information, if you didn't configure it during the container setup:
+During the installation, you might be asked for database information. It's important to know, that the database server is not reachable via `localhost`, or `127.0.0.1`, but `mysql`. It's also worth noting, that MySQL will be installed with a pre-created database, and pre-defined login information, if you didn't configure it during the container setup:
 
 - Database name: `woltlab_suite`
 - Database user: `woltlab_suite`
