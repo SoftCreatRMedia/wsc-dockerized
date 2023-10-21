@@ -6,8 +6,8 @@ if [ ! "$(ls -A "$1")" ]; then
     TMP_DIR="$(mktemp -d)"
     REF="$2"
     
-    # If the reference is 6.0, set it to master
-    [ "$REF" == "6.0" ] && REF="master"
+    # If the reference is 6.1, set it to master
+    [ "$REF" == "6.1" ] && REF="master"
 
     cd "$TMP_DIR"
 

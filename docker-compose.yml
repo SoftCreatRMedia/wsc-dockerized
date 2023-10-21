@@ -19,7 +19,7 @@ services:
       args:
         PHP_VERSION: "${PHP_VERSION:-8.2}"
     environment:
-      WSC_VERSION: "${WSC_VERSION:-6.0}"
+      WSC_VERSION: "${WSC_VERSION:-6.1}"
       MYSQL_DATABASE: "${MYSQL_DATABASE:-woltlab_suite}"
       MYSQL_USER: "${MYSQL_USER:-woltlab_suite}"
       MYSQL_PASSWORD: "${MYSQL_PASSWORD:-woltlab_suite}"
