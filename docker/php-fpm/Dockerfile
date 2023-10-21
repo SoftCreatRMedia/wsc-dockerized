@@ -24,6 +24,7 @@ RUN set -eux; \
         pdo_mysql \
         redis \
         opcache; \
+    rm /usr/local/bin/install-php-extensions; \
     rm -rf /var/lib/apt/lists/*
 
 # Setup entrypoint
