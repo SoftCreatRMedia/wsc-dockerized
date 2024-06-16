@@ -1,5 +1,3 @@
-version: "3.8"
-
 services:
   nginx:
     image: "nginx:alpine"
@@ -36,20 +34,13 @@ services:
     image: "mariadb:lts"
     restart: always
     volumes:
-      - "./mysql/data:/var/lib/mysql"
-      - "./mysql/files:/var/lib/mysql-files"
-      - "./mysql/logs:/var/log/mysql"
-      - "./mysql/conf:/etc/mysql"
-      - "./mysql/conf/conf.d:/etc/mysql/conf.d"
+      - "./docker/mysql/conf/my.cnf:/etc/mysql/my.cnf:ro"
     environment:
       MYSQL_ROOT_HOST: 172.*.*.*
       MYSQL_RANDOM_ROOT_PASSWORD: "yes"
       MYSQL_DATABASE: "${MYSQL_DATABASE:-woltlab_suite}"
       MYSQL_USER: "${MYSQL_USER:-woltlab_suite}"
       MYSQL_PASSWORD: "${MYSQL_PASSWORD:-woltlab_suite}"
-    command:
-      - mysqld
-      - "--innodb_buffer_pool_size=1G"
     ports:
       - "${MYSQL_PORT:-3306}:3306"
     networks:
