@@ -34,6 +34,9 @@ if [ ! "$(ls -A "$1")" ]; then
     rm -f "WCF-$REF.tgz"
     TMP_DIR="$TMP_DIR/WCF-$REF"
 
+    # Modify test.php to link to dev install
+    sed -i 's|href="install.php"|href="install.php?dev=1"|g' "$TMP_DIR/wcfsetup/test.php"
+
     mv -t "$INSTALL_DIR" "$TMP_DIR/wcfsetup/install.php" "$TMP_DIR/wcfsetup/test.php"
 
     pushd "$TMP_DIR/com.woltlab.wcf/templates"

@@ -15,7 +15,7 @@ services:
     build:
       context: docker/php-fpm
       args:
-        PHP_VERSION: "${PHP_VERSION:-8.2}"
+        PHP_VERSION: "${PHP_VERSION:-8.3}"
     environment:
       WSC_VERSION: "${WSC_VERSION:-6.1}"
       MYSQL_DATABASE: "${MYSQL_DATABASE:-woltlab_suite}"

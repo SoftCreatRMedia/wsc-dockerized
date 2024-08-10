@@ -24,7 +24,7 @@ Every version is shipped with the same basic components:
   + imagick (using ImageMagick 7)
   + pdo_mysql
   + redis
-  + opcache
+  + opcache (without pre-configured JIT)
 - MariaDB LTS
   + 1 GB InnoDB Buffer Pool Size
 - Dragonfly (redis)
