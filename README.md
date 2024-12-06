@@ -25,6 +25,7 @@ Every version is shipped with the same basic components:
   + pdo_mysql
   + redis
   + opcache (without pre-configured JIT)
+  + gmp
 - MariaDB LTS
   + 1 GB InnoDB Buffer Pool Size
 - Dragonfly (redis)
@@ -33,7 +34,8 @@ Depending on the WSC version, the PHP version needs to be set in the `.env` file
 
 | Version           | Min. PHP-Version | Max. PHP-Version |
 |-------------------|------------------|------------------|
-| WoltLab Suite 6.1 | TBA              | TBA              |
+| WoltLab Suite 6.2 | TBA              | TBA              |
+| WoltLab Suite 6.1 | PHP 8.1.2        | PHP 8.3.x        |
 | WoltLab Suite 6.0 | PHP 8.1.2        | PHP 8.3.x        |
 | WoltLab Suite 5.5 | PHP 7.4.21       | PHP 8.1.x        |
 | WoltLab Suite 5.4 | PHP 7.2.24       | PHP 8.0.x        |
