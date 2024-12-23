@@ -5,16 +5,11 @@ if [ ! "$(ls -A "$1")" ]; then
     INSTALL_DIR="$1"
     TMP_DIR="$(mktemp -d)"
     REF="$2"
-    
-    # If the reference is 6.2, set it to master
-    [ "$REF" == "6.2" ] && REF="master"
 
     cd "$TMP_DIR"
 
     # Determine the download URL based on the REF value
-    if [[ "$REF" == "master" ]] || [[ "$REF" == "main" ]]; then
-        DOWNLOAD_URL="https://codeload.github.com/WoltLab/WCF/tar.gz/refs/heads/$REF"
-    elif [[ "$REF" =~ ^[0-9]+\.[0-9]+\.[0-9]+(_(Alpha|Beta|RC|dev)_[0-9]+)?$ ]]; then
+    if [[ "$REF" =~ ^[0-9]+\.[0-9]+\.[0-9]+(_(Alpha|Beta|RC|dev)_[0-9]+)?$ ]]; then
         DOWNLOAD_URL="https://codeload.github.com/WoltLab/WCF/tar.gz/refs/tags/$REF"
     elif [[ "$REF" =~ ^[0-9]+\.[0-9]+$ ]]; then
         DOWNLOAD_URL="https://codeload.github.com/WoltLab/WCF/tar.gz/refs/heads/$REF"
