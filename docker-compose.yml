@@ -35,6 +35,7 @@ services:
     restart: always
     volumes:
       - "./docker/mysql/conf/my.cnf:/etc/mysql/my.cnf:ro"
+      - "mysqldata:/var/lib/mysql"
     environment:
       MYSQL_ROOT_HOST: 172.*.*.*
       MYSQL_RANDOM_ROOT_PASSWORD: "yes"
@@ -61,4 +62,5 @@ networks:
     driver: bridge
 
 volumes:
+  mysqldata:
   dragonflydata:
