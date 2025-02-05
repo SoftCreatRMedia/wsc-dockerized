@@ -16,7 +16,7 @@
 
 Every version is shipped with the same basic components:
 
-- nginx
+- nginx 1.27.3 + headers-more module
 - PHP
   + exif
   + intl
