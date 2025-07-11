@@ -91,7 +91,8 @@ During the installation, you might be asked for database information. It's impor
 
 You may wonder, if this was already everything, and the simple answer is:
 
-![image](https://user-images.githubusercontent.com/81188/172994085-ca351ec9-cd29-4bcd-9b5d-07e730372841.png)
+![image](https://github.com/user-attachments/assets/1469c98b-be7b-4c6c-9b3d-10514570a462)
+
 
 If no errors occurred during the installation process, everything is set-up, and you can enjoy using the WoltLab software 🎉
 
