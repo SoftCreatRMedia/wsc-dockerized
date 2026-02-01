@@ -37,6 +37,7 @@ services:
     image: "mariadb:lts"
     restart: always
     volumes:
+      - "mysqldata:/var/lib/mysql"
       - "./docker/mysql/conf/my.cnf:/etc/mysql/my.cnf:ro"
     environment:
       MYSQL_ROOT_HOST: 172.*.*.*
@@ -65,3 +66,4 @@ networks:
 
 volumes:
   dragonflydata:
+  mysqldata:
