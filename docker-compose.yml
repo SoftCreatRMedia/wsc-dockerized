@@ -18,9 +18,10 @@ services:
     build:
       context: docker/php-fpm
       args:
-        PHP_VERSION: "${PHP_VERSION:-8.3}"
+        PHP_VERSION: "${PHP_VERSION:-8.4}"
+        WSC_VERSION: "${WSC_VERSION:-6.2}"
     environment:
-      WSC_VERSION: "${WSC_VERSION:-6.1}"
+      WSC_VERSION: "${WSC_VERSION:-6.2}"
       MYSQL_DATABASE: "${MYSQL_DATABASE:-woltlab_suite}"
       MYSQL_USER: "${MYSQL_USER:-woltlab_suite}"
       MYSQL_PASSWORD: "${MYSQL_PASSWORD:-woltlab_suite}"
@@ -50,20 +51,9 @@ services:
     networks:
       - wsc-network
 
-  redis:
-    image: docker.dragonflydb.io/dragonflydb/dragonfly:ubuntu
-    restart: always
-    ulimits:
-      memlock: -1
-    volumes:
-      - "dragonflydata:/data"
-    networks:
-      - wsc-network
-
 networks:
   wsc-network:
     driver: bridge
 
 volumes:
-  dragonflydata:
   mysqldata:

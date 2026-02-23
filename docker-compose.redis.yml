@@ -1,0 +1,13 @@
+services:
+  redis:
+    image: docker.dragonflydb.io/dragonflydb/dragonfly:ubuntu
+    restart: always
+    ulimits:
+      memlock: -1
+    volumes:
+      - "dragonflydata:/data"
+    networks:
+      - wsc-network
+
+volumes:
+  dragonflydata:

@@ -23,18 +23,19 @@ Every version is shipped with the same basic components:
   + gd (incl. WebP support)
   + imagick (using ImageMagick 7)
   + pdo_mysql
-  + redis
+  + redis (WSC < 6.3)
   + opcache (without pre-configured JIT)
   + gmp
 - MariaDB LTS
   + 1 GB InnoDB Buffer Pool Size
-- Dragonfly (redis)
+- Dragonfly (redis, WSC < 6.3)
 
 Depending on the WSC version, the PHP version needs to be set in the `.env` file:
 
 | Version           | Min. PHP-Version | Max. PHP-Version |
 |-------------------|------------------|------------------|
-| WoltLab Suite 6.2 | TBA              | TBA              |
+| WoltLab Suite 6.3 | PHP 8.3.30       | PHP 8.5.x        |
+| WoltLab Suite 6.2 | PHP 8.1.2        | PHP 8.4.x        |
 | WoltLab Suite 6.1 | PHP 8.1.2        | PHP 8.3.x        |
 | WoltLab Suite 6.0 | PHP 8.1.2        | PHP 8.3.x        |
 | WoltLab Suite 5.5 | PHP 7.4.21       | PHP 8.1.x        |
@@ -64,7 +65,7 @@ After checking out the desired WoltLab Suite Core version, it's time to set-up t
 To start the container setup, execute this command:
 
 ```bash
-docker-compose up
+./compose.sh up
 ```
 
 Depending on the host machine, this process may take a few minutes (especially on Windows, using Docker Desktop)
@@ -106,6 +107,8 @@ __Answer:__
 2. Head over to Configuration -> General -> Cache
 3. Check `Use Redis` under `Caching Method`
 4. Paste `redis:6379` into the `Redis-Server` input field
+
+This is only applicable to WSC versions below 6.3.
 
 ## Troubleshooting
 
