@@ -54,7 +54,7 @@ The following instructions mainly refer to the installation via console. For Doc
 Execute the following code to download the whole project:
 
 ```bash
-git clone https://github.com/SoftCreatR/wsc-dockerized
+git clone https://github.com/SoftCreatRMedia/wsc-dockerized
 cd wsc-dockerized
 ```
 
