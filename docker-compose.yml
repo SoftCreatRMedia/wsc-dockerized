@@ -17,8 +17,8 @@ services:
   php-fpm:
     build:
       context: docker/php-fpm
+      target: "php-${PHP_VERSION:-8.4}"
       args:
-        PHP_VERSION: "${PHP_VERSION:-8.4}"
         WSC_VERSION: "${WSC_VERSION:-6.2}"
     environment:
       WSC_VERSION: "${WSC_VERSION:-6.2}"

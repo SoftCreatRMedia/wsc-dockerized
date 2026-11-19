@@ -14,10 +14,10 @@ fi
 wsc_version="${WSC_VERSION:-}"
 
 if [ -z "$wsc_version" ] && [ -f ".env" ]; then
-    wsc_version="$(grep -E '^[[:space:]]*WSC_VERSION=' .env | tail -n 1 | sed -E 's/^[[:space:]]*WSC_VERSION=//; s/[[:space:]]+$//')"
+    wsc_version="$(sed -nE 's/^[[:space:]]*WSC_VERSION=//p' .env | tail -n 1 | sed -E 's/[[:space:]]+$//')"
 fi
 
-wsc_version="${wsc_version:-6.1}"
+wsc_version="${wsc_version:-6.2}"
 wsc_version_normalized="$(printf '%s' "$wsc_version" | grep -Eo '^[0-9]+(\.[0-9]+){1,2}' || true)"
 
 version_lt() {

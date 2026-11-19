@@ -1,5 +1,7 @@
 #!/bin/bash
 
+sh /usr/local/bin/check-php-version.sh "$2" || exit 1
+
 if [ ! "$(ls -A "$1")" ]; then
     # Define the installation directory and reference/version
     INSTALL_DIR="$1"
@@ -56,7 +58,4 @@ if [ ! "$(ls -A "$1")" ]; then
 fi
 
 # Start PHP-FPM
-php-fpm
-
-# Execute any additional commands passed to the script
-exec "$@"
+exec php-fpm -F

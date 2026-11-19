@@ -7,6 +7,7 @@
 ##### Linux
 - [Docker](https://docs.docker.com/engine/install/)
 - [Docker Compose](https://docs.docker.com/compose/install/)
+- [BuildKit](https://docs.docker.com/build/buildkit/) for the PHP-FPM build targets
 
 ##### Windows
 - [WSL 2](https://docs.microsoft.com/windows/wsl/install)
@@ -30,20 +31,47 @@ Every version is shipped with the same basic components:
   + 1 GB InnoDB Buffer Pool Size
 - Dragonfly (redis, WSC < 6.3)
 
-Depending on the WSC version, the PHP version needs to be set in the `.env` file:
+Set `PHP_VERSION` in `.env` to a PHP series supported by your WoltLab Suite version.
 
-| Version           | Min. PHP-Version | Max. PHP-Version |
-|-------------------|------------------|------------------|
-| WoltLab Suite 6.3 | PHP 8.3.30       | PHP 8.5.x        |
-| WoltLab Suite 6.2 | PHP 8.1.2        | PHP 8.4.x        |
-| WoltLab Suite 6.1 | PHP 8.1.2        | PHP 8.3.x        |
-| WoltLab Suite 6.0 | PHP 8.1.2        | PHP 8.3.x        |
-| WoltLab Suite 5.5 | PHP 7.4.21       | PHP 8.1.x        |
-| WoltLab Suite 5.4 | PHP 7.2.24       | PHP 8.0.x        |
-| WoltLab Suite 5.3 | PHP 7.0.22       | PHP 7.4.x        |
-| WoltLab Suite 5.2 | PHP 7.0.22       | PHP 7.4.x        |
-| WoltLab Suite 3.1 | PHP 5.5.4        | PHP 7.4.x        |
-| WoltLab Suite 3.0 | PHP 5.5.4        | PHP 7.4.x        |
+| WoltLab Suite | Supported PHP series |
+|---------------|----------------------|
+| 6.3 | 8.4 (8.4.27 or later), 8.5 (8.5.12 or later) |
+| 6.2 | 8.1 through 8.4 |
+| 6.0 and 6.1 | 8.1 through 8.3 |
+| 5.5 | 7.4 through 8.1 |
+| 5.4 | 7.2 through 8.0 |
+| 5.2 and 5.3 | 7.0 through 7.4 |
+| 3.0 and 3.1 | 5.5 through 7.4 |
+
+Every PHP-FPM build target requires a fix for CVE-2026-109618 and
+CVE-2026-109619. PHP 8.2 through 8.5 use official images pinned by digest.
+PHP 5.6 through 8.1 use signed DEB.SURY.ORG backports for `linux/amd64`,
+`linux/arm64`, and `linux/arm/v7`. PHP 5.5 uses signed CloudLinux packages
+starting at revision `5.5.38-183` and requires `linux/amd64`.
+[PHP security advisory](https://www.php.net/archive/2026.php#2026-10-21-5),
+[DEB.SURY.ORG package repository](https://packages.sury.org/php/),
+[CloudLinux advisory](https://cloudlinux.zendesk.com/hc/en-us/articles/31194180517916)
+
+| `PHP_VERSION` | Release selector |
+|---------------|------------------|
+| `5.5` | `5.5.38` |
+| `5.6` | `5.6.40` |
+| `7.0` | `7.0.33` |
+| `7.1` | `7.1.33` |
+| `7.2` | `7.2.34` |
+| `7.3` | `7.3.33` |
+| `7.4` | `7.4.33` |
+| `8.0` | `8.0.30` |
+| `8.1` | `8.1.34` |
+| `8.2` | `8.2.35` |
+| `8.3` | `8.3.36` |
+| `8.4` (default) | `8.4.27` |
+| `8.5` | `8.5.12` |
+
+The two selectors in each row build the same PHP runtime. For a direct
+Docker build, use `--target`, for example `--target php-8.5`. Legacy package
+updates are checked by package revision because the PHP version banner can
+stay the same after a security backport.
 
 ## Installation
 
@@ -67,6 +95,10 @@ To start the container setup, execute this command:
 ```bash
 ./compose.sh up
 ```
+
+If you already have a container from an earlier checkout, update your
+`PHP_VERSION` if needed and run `./compose.sh up -d --build php-fpm` to rebuild
+and recreate the PHP-FPM container with its patched runtime.
 
 Depending on the host machine, this process may take a few minutes (especially on Windows, using Docker Desktop)
 
